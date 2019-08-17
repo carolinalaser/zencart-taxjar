@@ -61,7 +61,3 @@ And Add This:
             <td colspan="2"><?php echo $tj_message; ?></td>
         </tr>
         <!-- EOF Taxjar mods 1/1 -->
-
-
-        
-***  US Addresses only.  Has not been tested with addresss outside the US.  Internation addesse wont be charged tax. ***
