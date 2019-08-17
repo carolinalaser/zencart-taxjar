@@ -1,4 +1,8 @@
-Copy all the files in the usual manner.  No core overwrites, but two easy mods to two template files:
+Copy all the files in the usual manner.  No core overwrites.
+
+Install the TaxJar library using Composer.  Details here: https://github.com/taxjar/taxjar-php
+
+Then two easy mods to two template files:
 
 *************** 1/2
 To YOUR_TEMPLATE/templates/tpl_checkout_success_default.php, add ths at the end of the file.
@@ -14,7 +18,7 @@ To YOUR_TEMPLATE/templates/tpl_checkout_success_default.php, add ths at the end 
 
 and YOUR_ADMIN/orders.php, add this:
 
-<!-- BOF Taxjar mods 1/1 -->
+        <!-- BOF Taxjar mods 1/1 -->
         <?php 
         $tj = $_GET['tj'];
         
@@ -40,7 +44,7 @@ and YOUR_ADMIN/orders.php, add this:
         <tr>
             <td colspan="2"><?php echo $tj_message; ?></td>
         </tr>
-<!-- EOF Taxjar mods 1/1 -->
+        <!-- EOF Taxjar mods 1/1 -->
 
 above this line:
 
