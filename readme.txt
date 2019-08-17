@@ -1,3 +1,12 @@
+Provides a TaxJar order total module.  You will need to disable the built-in zc tax module ot_tax.  Visit the taxjar website to create your taxjar account.  
+
+Settings are in the ot_taxjar module.  Enter your taxjar API key, Order Prefix and list the states you have configured to collect in TaxJar.
+
+If you are using Customer Tax Exempt, there is a setting to enable it.  A Customer may be exempted from collection by adding the state to the Customer Tax Exempt field in the Admin Customers.php.  For multiple state exemptions, list the states like this:  FL,NC,GA  if they are exempt from all states (blanket cert) then enter ALL.
+
+
+Installation:
+
 Copy all the files in the usual manner.  No core overwrites.
 
 Install the TaxJar library using Composer.  Details here: https://github.com/taxjar/taxjar-php
@@ -5,7 +14,7 @@ Install the TaxJar library using Composer.  Details here: https://github.com/tax
 Then two easy mods to two template files:
 
 *************** 1/2
-To YOUR_TEMPLATE/templates/tpl_checkout_success_default.php, add ths at the end of the file.
+To YOUR_TEMPLATE/templates/tpl_checkout_success_default.php, add ths at the end of the file.  This snippet creates the new order in taxjar.
 
 <!--BOF Taxjar code 1/1 -->
 <?php
@@ -16,7 +25,14 @@ To YOUR_TEMPLATE/templates/tpl_checkout_success_default.php, add ths at the end 
 
 *************** 2/2
 
-and YOUR_ADMIN/orders.php, add this:
+The following adds two buttons to the Admin Orders page:  One removes an order from TaxJar, one adds an order to Taxjar.  This is for those instances when an order is canceled or refunded, or a customer has sent in an exemption certificate after placing the order.  
+
+In YOUR_ADMIN/orders.php find this line:
+
+<td class="main"><?php echo $order->info['payment_method']; ?></td>
+        </tr>
+
+And Add This:
 
         <!-- BOF Taxjar mods 1/1 -->
         <?php 
@@ -46,9 +62,6 @@ and YOUR_ADMIN/orders.php, add this:
         </tr>
         <!-- EOF Taxjar mods 1/1 -->
 
-above this line:
 
-<td class="main"><?php echo $order->info['payment_method']; ?></td>
-        </tr>
         
 ***  US Addresses only.  Has not been tested with addresss outside the US.  Internation addesse wont be charged tax. ***
