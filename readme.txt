@@ -7,14 +7,16 @@ If you are using Customer Tax Exempt, there is a setting to enable it.  A Custom
 
 Installation:
 
-Copy all the files in the usual manner.  No core overwrites.
+*** BACK UP YOUR FILES! ***
+
+Copy all the files in the usual manner to your ZC store.  No core overwrites.
 
 Install the TaxJar library using Composer.  Details here: https://github.com/taxjar/taxjar-php
 
 Then two easy mods to two template files:
 
 *************** 1/2
-To YOUR_TEMPLATE/templates/tpl_checkout_success_default.php, add ths at the end of the file.  This snippet creates the new order in taxjar.
+To YOUR_TEMPLATE/templates/tpl_checkout_success_default.php, add ths at the end of the file.  This snippet creates the new order in taxjar when the customer checks out.
 
 <!--BOF Taxjar code 1/1 -->
 <?php
@@ -32,9 +34,9 @@ In YOUR_ADMIN/orders.php find this line:
 <td class="main"><?php echo $order->info['payment_method']; ?></td>
         </tr>
 
-And Add This:
+Then add this right above it:
 
-        <!-- BOF Taxjar mods 1/1 -->
+   <!-- BOF Taxjar mods 1/1 -->
         <?php 
         $tj = $_GET['tj'];
         
@@ -60,4 +62,4 @@ And Add This:
         <tr>
             <td colspan="2"><?php echo $tj_message; ?></td>
         </tr>
-        <!-- EOF Taxjar mods 1/1 -->
+   <!-- EOF Taxjar mods 1/1 -->
