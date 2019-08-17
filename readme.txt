@@ -1,8 +1,8 @@
-Provides a TaxJar order total module.  You will need to disable the built-in zc tax module ot_tax.  Visit the taxjar website to create your taxjar account.  
+Provides a TaxJar order total module for Zen Cart.  Tested with version 1.5.5f but should work with other versions.  You will need to disable the built-in zc tax module ot_tax.  Visit the taxjar website to create your taxjar account.  
 
-Settings are in the ot_taxjar module.  Enter your taxjar API key, Order Prefix and list the states you have configured to collect in TaxJar.
+Settings are in the ot_taxjar module.  Enter your taxjar API key, Order Prefix and list the states you have configured to collect in TaxJar.  The Order Prefix is optional, but allows having more than one ZC store tied into your TaxJar account.  This ensures unique order numbers within TaxJar.
 
-If you are using Customer Tax Exempt, there is a setting to enable it.  A Customer may be exempted from collection by adding the state to the Customer Tax Exempt field in the Admin Customers.php.  For multiple state exemptions, list the states like this:  FL,NC,GA  if they are exempt from all states (blanket cert) then enter ALL.
+If you are using Customer Tax Exempt, there is a setting to enable it.  A Customer may be exempted from collection by adding the state to the Customer Tax Exempt field in the Admin Customers.  For multiple state exemptions, list the states like this:  FL,NC,GA  if they are exempt from all states (blanket cert) then enter ALL.
 
 
 Installation:
@@ -27,7 +27,7 @@ To YOUR_TEMPLATE/templates/tpl_checkout_success_default.php, add ths at the end 
 
 *************** 2/2
 
-The following adds two buttons to the Admin Orders page:  One removes an order from TaxJar, one adds an order to Taxjar.  This is for those instances when an order is canceled or refunded, or a customer has sent in an exemption certificate after placing the order.  
+The following adds two buttons to the Admin Orders page:  One removes the order from TaxJar, one adds the order to TaxJar.  This is for those instances when an order is canceled or refunded, or a customer has sent in an exemption certificate after placing the order.  
 
 In YOUR_ADMIN/orders.php find this line:
 
