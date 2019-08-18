@@ -27,7 +27,9 @@ To YOUR_TEMPLATE/templates/tpl_checkout_success_default.php, add ths at the end 
 
 *************** 2/2
 
-The following adds two buttons to the Admin Orders page:  One removes the order from TaxJar, one adds the order to TaxJar.  This is for those instances when an order is canceled or refunded, or a customer has sent in an exemption certificate after placing the order.  
+OPTIONAL
+
+The following adds two buttons to the Admin Orders page:  One removes the order from TaxJar, one adds the order to TaxJar.  This is for those instances when an order is canceled or refunded, or a customer has sent in an exemption certificate after placing the order. If you choose not to install this piece, you can do it through the TaxJar interface. 
 
 In YOUR_ADMIN/orders.php find this line:
 
