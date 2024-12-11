@@ -6,6 +6,8 @@ function connect_taxjar(){
     
     $client = TaxJar\Client::withApiKey(MODULE_ORDER_TOTAL_TAXJAR_API_KEY);
     
+    $client->setApiConfig('headers', ['x-api-version' => '2022-01-24']);
+    
     return $client;
 }
 
@@ -223,6 +225,7 @@ function order_taxable($order){
 }
 
 function customer_exempt($email, $delivery_state){
+   
     //uses email b/c id is not always available in $order
     global $db;
     
@@ -242,18 +245,10 @@ function customer_exempt($email, $delivery_state){
         $states = $cust->fields['customers_tax_exempt'];
         
         //see if delivery state is anywhere in the tax_exempt string
-        //if (strpos($states,$delivery_state) !== false){
-        //    return true;
-    //    }
-        
-        //see if delivery state is anywhere in the tax_exempt string or ALL
-        if (strpos($states,$delivery_state) !== false OR (strpos($states,'ALL'))!==false)
-        
-        {
+        //or exempt if ALL is in the string
+        if (strpos($states,$delivery_state) !== false or strpos($states,"ALL") !== false){
             return true;
         }
-        
-        
     }
     
     return false;
