@@ -10,15 +10,16 @@
  */
 
 class ot_taxjar {
-   var $title, $output;
-   var $explanation;
+   var $title, $output, $code, $description, $sort_order, $explanation, $_check;
 
    function __construct() {
       $this->code = 'ot_taxjar';
       $this->title = MODULE_ORDER_TOTAL_TAXJAR_TITLE;
       $this->description = MODULE_ORDER_TOTAL_TAXJAR_DESCRIPTION;
-      $this->sort_order = MODULE_ORDER_TOTAL_TAXJAR_SORT_ORDER;
- 
+
+	  $this->sort_order = defined('MODULE_ORDER_TOTAL_TAXJAR_SORT_ORDER') ? MODULE_ORDER_TOTAL_TAXJAR_SORT_ORDER : null;
+        if (null === $this->sort_order) return false;
+        $this->output = [];
    }
 
    function process() {
@@ -70,7 +71,7 @@ class ot_taxjar {
         //echo "fee: ".get_ot_value($order->totals,"ot_priority_handling");
         
         $zip = $order->delivery['postcode'];
-        $street = $order->delivery['address'];
+        $street = $order->delivery['street_address'];
         $city = $order->delivery['city'];
         $state = convert_state($order->delivery['state'],'abbrev');
         $country = $order->delivery['country']['iso_code_2'];
