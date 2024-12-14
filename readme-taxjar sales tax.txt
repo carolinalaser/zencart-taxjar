@@ -58,7 +58,10 @@ Ugrading:
 longer necessary since it is being handled by an observer in the newest version.
 
 2. If you installed the admin tools in your YOUR_ADMIN/orders.php, you will want to remove those mods as well.  This is also handled by an 
-oberserver in the newest version.
+observer in the newest version.
+
+3. You can remove the old taxjar api files, located at STORE_ROOT/taxjar.  The new version uses the api located in the modules/order_total folder, and 
+is supplied in the plugin files.
 
 
 
