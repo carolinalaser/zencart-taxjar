@@ -2,7 +2,7 @@
 
 function connect_taxjar(){
     
-    require $_SERVER['DOCUMENT_ROOT'].'/taxjar/vendor/autoload.php';
+    require $_SERVER['DOCUMENT_ROOT'].'/includes/modules/order_total/taxjar/vendor/autoload.php';
     
     $client = TaxJar\Client::withApiKey(MODULE_ORDER_TOTAL_TAXJAR_API_KEY);
     
@@ -11,45 +11,39 @@ function connect_taxjar(){
     return $client;
 }
 
-function taxjar_create_order($order, $oID){
-
-    $taxable = order_taxable($order);
-    
-    if (!$taxable) {
-        return false;
-    }
+function create_order($orderid){
 
     $store = MODULE_ORDER_TOTAL_TAXJAR_ORDER_PREFIX;
     
+    $order = new order($orderid);
+
     //connect to taxjar
     $client = connect_taxjar();
     
     try{
         //see if this order already exists
-        $tj_order = $client->showOrder($store.$oID);
+        $tj_order = $client->showOrder($store.$orderid);
+        $msg = "Order Exists.";
         
     } catch(Exception $e){
         
-        //does not exist, create it
+        //does not exist, create order
         
         $date = $order->info['date_purchased'];
-        $country = 'US'; // $order->delivery['country'];
+        $country = $order->delivery['country']['iso_code_2'];
         $zip = $order->delivery['postcode'];
         $state = convert_state($order->delivery['state'],'abbrev');
         $city = $order->delivery['city'];
         $street = $order->delivery['street_address'];
-        
-        $amount = get_ot_value($order->totals,"ot_subtotal") + get_ot_value($order->totals,"ot_shipping") + get_ot_value($order->totals,"ot_loworderfee") + get_ot_value($order->totals,"ot_priority_handling")-get_ot_value($order->totals,"ot_quantity_discount");
-        
-        //$amount = get_ot_value($order->totals,"ot_total") - get_ot_value($order->totals,"ot_shipping");
-        
+  
         $amount = get_ot_value($order->totals,"ot_total") - get_ot_value($order->totals,"ot_taxjar");
         
         $shipping = get_ot_value($order->totals,"ot_shipping");
         $tax = get_ot_value($order->totals,"ot_taxjar");
         
+        
         $tj_order = $client->createOrder([
-          'transaction_id' =>$store.$oID,
+          'transaction_id' =>$store.$orderid,
           'transaction_date' => $date,
           'to_country' => $country,
           'to_zip' => $zip,
@@ -58,17 +52,18 @@ function taxjar_create_order($order, $oID){
           'to_street' => $street,
           'amount' => $amount,
           'shipping' => $shipping,
-          'sales_tax' => $tax,
-          'description' => $store.$oID
-        ]);
-
+          'sales_tax' => $tax
+        ]); 
+        
+        $msg = "Order created in TaxJar.";
     }
 
     //echo '<pre>';
     //echo print_r($tj_order);
     //echo '</pre>';
     
-    return true;
+    return $msg;
+    
 }
 
 function get_ot_value($array,$key){

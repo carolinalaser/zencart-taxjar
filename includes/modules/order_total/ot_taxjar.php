@@ -67,9 +67,7 @@ class ot_taxjar {
         $subtotal = $order->info['total']-$order->info['shipping_cost'];
         
         $shipping_cost = $order->info['shipping_cost'];
-        
-        //echo "fee: ".get_ot_value($order->totals,"ot_priority_handling");
-        
+              
         $zip = $order->delivery['postcode'];
         $street = $order->delivery['street_address'];
         $city = $order->delivery['city'];
@@ -121,11 +119,11 @@ class ot_taxjar {
         
         $db->Execute ("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Sort Order', 'MODULE_ORDER_TOTAL_TAXJAR_SORT_ORDER', '400', 'Sort order of display.', '6', '20', now())");
         
-        $db->Execute("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('TaxJar API Key', 'MODULE_ORDER_TOTAL_TAXJAR_API_KEY', 'your-key-here', 'Your TaxJar API key.  Get yours from http://www.taxjar.com', '6', '10', now())");
+        $db->Execute("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('TaxJar API Key', 'MODULE_ORDER_TOTAL_TAXJAR_API_KEY', 'your-key-here', 'Your TaxJar API key.  Get yours from http://www.taxjar.com', '6', '10', now())");
 
-        $db->Execute("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Order Prefix', 'MODULE_ORDER_TOTAL_TAXJAR_ORDER_PREFIX', '', 'Order prefix for TaxJar.  Useful if order numbers from multiple platforms might overlap.', '6', '10', now())");
+        $db->Execute("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Order Prefix', 'MODULE_ORDER_TOTAL_TAXJAR_ORDER_PREFIX', '', 'Order prefix for TaxJar.  Useful if order numbers from multiple platforms might overlap.', '6', '10', now())");
 
-        $db->Execute("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Nexus States', 'MODULE_ORDER_TOTAL_TAXJAR_NEXUS_STATES', '', 'State where you want ot collect sales tax. These must be configured in TaxJar also. Separate states with a comma. ex: GA,CA,NY,FL.', '6', '10', now())");
+        $db->Execute("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Nexus States', 'MODULE_ORDER_TOTAL_TAXJAR_NEXUS_STATES', '', 'State where you want ot collect sales tax. These must be configured in TaxJar also. Separate states with a comma. ex: GA,CA,NY,FL.', '6', '10', now())");
 
         $db->Execute ("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Use Customer Tax Exempt Plugin?', 'MODULE_ORDER_TOTAL_TAXJAR_USE_CUST_TAX_EXEMPT', 'False', 'Exempt customers using Customers Tax Exempt plugin.  Install CTE before enabling.', '6', '0', 'zen_cfg_select_option(array(\'True\', \'False\'), ', now())");
 
