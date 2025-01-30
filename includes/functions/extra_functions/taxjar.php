@@ -18,12 +18,12 @@ function create_order($orderid)
 
     //taxjar enabled and customer/order is taxable?
     $tj_enabled = MODULE_ORDER_TOTAL_TAXJAR_STATUS;
-
-    if ($tj_enabled == 'False' or !order_taxable($orderid)) {
+    
+    $order = new order($orderid);
+    
+    if ($tj_enabled == 'False' or !order_taxable($order)) {
         return false;
     }
-
-    $order = new order($orderid);
 
     //connect to taxjar
     $client = connect_taxjar();
@@ -89,7 +89,10 @@ function get_ot_value($array, $key)
 
 function convert_state($name, $to)
 {
-
+    if(!isset($name)){
+        return false;
+    }
+    
     if (strlen($name) == 2) {
 
         return $name;
@@ -189,6 +192,16 @@ function order_taxable($order)
     if ($tj_enabled == 'False') {
         return false;
     }
+    
+    //no state to check
+    if(!isset($order->delivery['state'])){
+        return false;
+    }
+    
+    //no customer to lookup
+    if(!isset($order->customer['email_address'])){
+        return false;
+    }
 
     $delivery_state = $order->delivery['state'];
 
@@ -235,6 +248,12 @@ function customer_exempt($email, $delivery_state)
         return false;
     }
 
+    if (!$delivery_state) {
+
+        return false;
+    }
+
+
     $sql = 'select customers_tax_exempt from ' . TABLE_CUSTOMERS . ' where customers_email_address = "' . $email . '"';
 
     $cust = $db->Execute($sql);
@@ -247,9 +266,16 @@ function customer_exempt($email, $delivery_state)
 
         //see if delivery state is anywhere in the tax_exempt string
         //or exempt if ALL is in the string
-        if (strpos($states, $delivery_state) !== false or strpos($states, "ALL") !== false) {
+        
+        //if (strpos($states, $delivery_state) !== false or strpos($states, "ALL") !== false) {
+        
+        //    return true;
+        //}
+        
+        if (is_string($states) && (strpos($states, $delivery_state) !== false || strpos($states, "ALL") !== false)) {
             return true;
         }
+        
     }
 
     return false;
